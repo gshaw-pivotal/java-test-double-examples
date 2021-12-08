@@ -4,6 +4,8 @@ import gs.javatestdoubleexamples.models.TheThing;
 import gs.javatestdoubleexamples.services.APIService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/api")
 public class API {
@@ -19,9 +21,9 @@ public class API {
         service.addTheThing(thing);
     }
 
-    @GetMapping(value = "/thing")
-    public void get() {
-        service.doTheGet();
+    @GetMapping(value = "/thing/{id}")
+    public void get(@RequestParam UUID id) {
+        service.getTheThing(id);
     }
 
     @GetMapping(value = "/thing/count")

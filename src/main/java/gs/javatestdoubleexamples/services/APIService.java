@@ -4,6 +4,8 @@ import gs.javatestdoubleexamples.models.TheThing;
 import gs.javatestdoubleexamples.ports.ThingRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class APIService {
 
@@ -15,7 +17,8 @@ public class APIService {
 
     public void addTheThing(TheThing thing){ db.add(thing); }
 
-    public void doTheGet() {
+    public TheThing getTheThing(UUID id) {
+        return db.getThing(id);
     }
     
     public int getNumberOfThings() { return db.getNumberOfThings(); }

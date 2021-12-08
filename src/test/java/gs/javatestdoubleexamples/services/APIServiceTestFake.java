@@ -6,17 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-class APIServiceTestMock {
+class APIServiceTestFake {
 
-    private ThingDBMock mock = new ThingDBMock();
+    private ThingDBFake mock = new ThingDBFake();
 
     private ThingRepository repository = mock;
 
@@ -46,18 +45,13 @@ class APIServiceTestMock {
             service.addTheThing(thing);
         }
 
-//        Uncomment below to break the verify
-//        TheThing thing = TheThing.builder()
-//                .name("foo")
-//                .desc("...")
-//                .id(UUID.randomUUID())
-//                .build();
-//        service.addTheThing(thing);
+        assertEquals(numberOfAdds, service.getNumberOfThings());
 
-        mock.verify(expectedThings);
+        assertNotNull(service.getTheThing(expectedThings.get(2).getId()));
+        assertNull(service.getTheThing(UUID.randomUUID()));
     }
 
-    private class ThingDBMock implements ThingRepository {
+    private class ThingDBFake implements ThingRepository {
 
         private List<TheThing> actualThings = new ArrayList<>();
 
@@ -68,16 +62,21 @@ class APIServiceTestMock {
 
         @Override
         public TheThing getThing(UUID id) {
-            return null;
+            List<TheThing> matchingThings = actualThings
+                    .stream()
+                    .filter(thing -> thing.getId().equals(id))
+                    .collect(Collectors.toList());
+
+            if (matchingThings.size() != 1) {
+                return null;
+            }
+
+            return matchingThings.get(0);
         }
 
         @Override
         public int getNumberOfThings() {
-            return 0;
-        }
-
-        public void verify(List<TheThing> expectedThings) {
-            assertEquals(actualThings, expectedThings);
+            return actualThings.size();
         }
     }
 }

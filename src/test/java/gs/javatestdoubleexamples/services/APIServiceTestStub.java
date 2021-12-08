@@ -56,6 +56,15 @@ class APIServiceTestStub {
         public void add(TheThing thing) { }
 
         @Override
+        public TheThing getThing(UUID id) {
+            return TheThing.builder()
+                    .name("foo-bar")
+                    .desc("lol")
+                    .id(UUID.randomUUID())
+                    .build();
+        }
+
+        @Override
         public int getNumberOfThings() {
             return numberOfRecords;
         }

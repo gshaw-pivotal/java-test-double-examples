@@ -57,11 +57,14 @@ class APIServiceTestSpy {
         assertEquals(spy.timesGetNumberCalled(), 0);
         service.getNumberOfThings();
         assertEquals(spy.timesGetNumberCalled(), 1);
+
+        assertEquals(spy.timesGetCalled(), 0);
     }
 
     private class ThingDBSpy implements ThingRepository {
 
         private int timesAddCalled = 0;
+        private int timesGetCalled = 0;
         private int timesGetNumberCalled = 0;
 
         private List<TheThing> actualThings = new ArrayList<>();
@@ -73,6 +76,12 @@ class APIServiceTestSpy {
         }
 
         @Override
+        public TheThing getThing(UUID id) {
+            timesGetCalled++;
+            return null;
+        }
+
+        @Override
         public int getNumberOfThings() {
             timesGetNumberCalled++;
             return 0;
@@ -80,6 +89,10 @@ class APIServiceTestSpy {
 
         public int timesAddCalled() {
             return timesAddCalled;
+        }
+
+        public int timesGetCalled() {
+            return timesGetCalled;
         }
 
         public int timesGetNumberCalled() {
