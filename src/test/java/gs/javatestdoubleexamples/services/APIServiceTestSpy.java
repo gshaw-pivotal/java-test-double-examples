@@ -2,7 +2,6 @@ package gs.javatestdoubleexamples.services;
 
 import gs.javatestdoubleexamples.models.TheThing;
 import gs.javatestdoubleexamples.ports.ThingRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,6 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class APIServiceTestSpy {
 
